@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@eng_with_betty · Heritage Vinyl Collection</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cormorant:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #F3E9D2;
+    --parchment-light: #F5EFDF;
+    --emerald: #1F3D2E;
+    --marsala: #7A2E22;
+    --gold: #B8863B;
+    --gold-light: #C9A227;
+    --gold-shadow: #8B6F35;
+    --ink: #3D2B1F;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--parchment);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(184,134,59,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(122,46,34,0.03) 0%, transparent 40%);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    min-height: 100vh;
+    padding-bottom: 130px;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg, transparent 0 40px, rgba(139,111,53,0.02) 40px 41px);
+    pointer-events: none; z-index: 0;
+  }
+
+  .brand {
+    display: block; text-align: center;
+    font-family: 'Cormorant', serif;
+    text-transform: uppercase; letter-spacing: 4px;
+    color: var(--gold-shadow);
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    transition: color .25s;
+  }
+  .brand:hover { color: var(--gold); }
+  .brand::before, .brand::after {
+    content: '❦'; margin: 0 12px; color: var(--gold-light); font-size: 14px;
+  }
+
+  header {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 32px 20px 40px;
+    border-bottom: 1px solid rgba(184,134,59,0.25);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 46px; font-weight: 900;
+    color: var(--emerald);
+    letter-spacing: 1px;
+    margin: 14px 0 6px;
+    line-height: 1.1;
+  }
+  header h1 .accent { color: var(--marsala); font-style: italic; font-weight: 400; }
+  header p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 20px;
+    color: var(--gold-shadow);
+    margin-top: 8px;
+  }
+  .ornament {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin: 18px auto 0; max-width: 340px;
+  }
+  .ornament .line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .ornament .crest { color: var(--gold); font-size: 18px; }
+
+  #view { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--marsala);
+    font-size: 32px; font-weight: 700;
+    margin: 20px 0 28px;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  h2::before, h2::after {
+    content: '—'; color: var(--gold); margin: 0 14px; font-weight: 300;
+  }
+
+  .grid { display: flex; flex-wrap: wrap; gap: 28px; justify-content: center; }
+
+  .folder {
+    background: linear-gradient(145deg, #F5EFDF 0%, #EDDFC0 100%);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 28px 24px;
+    width: 260px; text-align: center;
+    cursor: pointer;
+    transition: all .35s ease;
+    box-shadow:
+      inset 0 0 0 1px rgba(184,134,59,0.15),
+      0 4px 12px rgba(61,43,31,0.08);
+    position: relative;
+  }
+  .folder::before, .folder::after {
+    content: ''; position: absolute;
+    width: 14px; height: 14px;
+    border: 1px solid var(--gold);
+  }
+  .folder::before { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+  .folder::after { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+  .folder:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      inset 0 0 0 1px rgba(184,134,59,0.3),
+      0 14px 28px rgba(61,43,31,0.18);
+    border-color: var(--gold-light);
+  }
+
+  /* МИНИ-ДИСК вместо кружочка-монограммы */
+  .folder .monogram {
+    width: 84px; height: 84px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #2a2a2a 0%, #0d0d0d 45%, #1a1a1a 70%, #050505 100%);
+    box-shadow:
+      0 0 0 2px var(--gold-shadow),
+      0 0 0 4px rgba(61,43,31,0.25),
+      0 6px 14px rgba(61,43,31,0.3);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    transition: transform .5s ease;
+  }
+  .folder .monogram::before {
+    content: ''; position: absolute; inset: 0; border-radius: 50%;
+    background: repeating-radial-gradient(circle at center, transparent 0 1.5px, rgba(255,255,255,0.02) 1.5px 2.5px);
+  }
+  .folder:hover .monogram { transform: rotate(45deg); }
+  .folder .monogram .mini-label {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--label-light), var(--label) 60%, var(--label-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-style: italic; font-weight: 900;
+    font-size: 20px;
+    color: var(--parchment-light);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    z-index: 1;
+  }
+
+  .folder h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--emerald);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .folder .years {
+    font-family: 'Cormorant', serif;
+    text-transform: uppercase; letter-spacing: 3px;
+    color: var(--gold-shadow);
+    font-size: 12px; font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .folder .tracks-count {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 16px;
+    color: var(--ink);
+    padding-top: 12px;
+    border-top: 1px solid rgba(184,134,59,0.3);
+  }
+
+  #back {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--marsala);
+    padding: 10px 22px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: 'Cormorant', serif;
+    text-transform: uppercase; letter-spacing: 3px;
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 18px;
+    transition: all .25s;
+  }
+  #back:hover { background: var(--gold); color: var(--parchment-light); }
+
+  .vinyl-wrap { width: 220px; text-align: center; }
+  .vinyl {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    background:
+      radial-gradient(circle at 35% 35%, #2a2a2a 0%, #0d0d0d 45%, #1a1a1a 70%, #050505 100%);
+    box-shadow:
+      0 0 0 3px var(--gold-shadow),
+      0 0 0 5px rgba(61,43,31,0.3),
+      0 14px 32px rgba(61,43,31,0.35);
+    transition: transform .25s;
+  }
+  .vinyl::before {
+    content: ''; position: absolute; inset: 0; border-radius: 50%;
+    background: repeating-radial-gradient(circle at center, transparent 0 2px, rgba(255,255,255,0.015) 2px 3px);
+    pointer-events: none;
+  }
+  .vinyl:hover { transform: scale(1.04); }
+  /* БЕЗ белой точки — этикетка целиком, текст читается */
+  .vinyl .label {
+    position: absolute; inset: 28%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--label-light), var(--label) 60%, var(--label-dark));
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    color: var(--parchment-light);
+    font-family: 'Cormorant', serif;
+    text-transform: uppercase;
+    font-size: 12px; letter-spacing: 1.5px;
+    line-height: 1.35;
+    padding: 12px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.25);
+  }
+  .vinyl.spinning { animation: spin 4s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .vinyl-title {
+    margin-top: 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 17px;
+    color: var(--emerald);
+    min-height: 42px;
+  }
+
+  #player {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(180deg, var(--emerald) 0%, #142618 100%);
+    border-top: 3px double var(--gold);
+    display: flex; align-items: center; gap: 18px;
+    padding: 16px 28px;
+    flex-wrap: wrap;
+    box-shadow: 0 -6px 24px rgba(61,43,31,0.2);
+    z-index: 10;
+  }
+  #playBtn {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: var(--marsala);
+    color: var(--parchment-light);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all .25s;
+    font-family: 'Playfair Display', serif;
+  }
+  #playBtn:hover { background: var(--gold-light); color: var(--emerald); }
+  #nowPlaying {
+    flex: 1; min-width: 200px;
+    color: var(--parchment-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 18px;
+  }
+  #status {
+    color: #f5d2c9;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    width: 100%;
+  }
+  .vol {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--parchment-light);
+    font-family: 'Cormorant', serif;
+    text-transform: uppercase; letter-spacing: 2px;
+    font-size: 12px;
+  }
+  input[type=range] { width: 140px; accent-color: var(--gold-light); }
+
+  footer {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 30px 20px 20px;
+    margin-top: 20px;
+    border-top: 1px solid rgba(184,134,59,0.25);
+  }
+  footer .ornament { margin-bottom: 14px; }
+  footer .credit {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 15px;
+    color: var(--gold-shadow);
+    margin-top: 10px;
+  }
+
+  @media (max-width: 640px) {
+    header h1 { font-size: 32px; }
+    header p { font-size: 17px; }
+    h2 { font-size: 24px; }
+    .folder, .vinyl-wrap { width: calc(50% - 14px); min-width: 180px; }
+    .vinyl { width: 180px; height: 180px; }
+    .vinyl .label { font-size: 10px; padding: 8px; }
+    #player { padding: 12px 16px; gap: 10px; }
+    #playBtn { width: 44px; height: 44px; }
+    input[type=range] { width: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://t.me/eng_with_betty" target="_blank" class="brand">@eng_with_betty</a>
+  <h1>Heritage <span class="accent">Vinyl</span> Collection</h1>
+  <p>Золотой фонд русской классики</p>
+  <div class="ornament">
+    <div class="line"></div>
+    <span class="crest">❦</span>
+    <div class="line"></div>
+  </div>
+</header>
+
+<div id="view"></div>
+
+<div id="player">
+  <button id="playBtn">▶</button>
+  <div id="nowPlaying">Пластинка не выбрана…</div>
+  <div class="vol">Vol <input type="range" id="vol" min="0" max="100" value="80"> <span id="volVal">80%</span></div>
+  <div id="status"></div>
+</div>
+
+<footer>
+  <div class="ornament">
+    <div class="line"></div>
+    <span class="crest">❦</span>
+    <div class="line"></div>
+  </div>
+  <a href="https://t.me/eng_with_betty" target="_blank" class="brand">@eng_with_betty</a>
+  <div class="credit">Сделано с любовью к русской музыке</div>
+</footer>
+
+<script>
+const DATA = [
+ { composer:"Pyotr Tchaikovsky", years:"1840 – 1893", initial:"T",
+   label:"#7A2E22", labelLight:"#9e3d30", labelDark:"#4e1b14",
+   tracks:[
+   ["Swan Lake","tchaikovsky_swan_lake.mp3"],
+   ["The Nutcracker","tchaikovsky_nutcracker.mp3"],
+   ["The Sleeping Beauty","tchaikovsky_sleeping_beauty.mp3"],
+   ["Eugene Onegin","tchaikovsky_eugene_onegin.mp3"],
+   ["Yolanta","tchaikovsky_yolanta.mp3"],
+   ["The Queen of Spades","tchaikovsky_queen_of_spades.mp3"],
+   ["1812 Overture","tchaikovsky_1812_overture.mp3"],
+   ["First Piano Concerto","tchaikovsky_piano_concerto_1.mp3"],
+   ["First Quartet","tchaikovsky_quartet_1.mp3"],
+   ["Symphony No. 6 «Pathetic»","tchaikovsky_symphony_6.mp3"],
+   ["The Day Reigns","tchaikovsky_the_day_reigns.mp3"] ]},
+
+ { composer:"Mikhail Glinka", years:"1804 – 1857", initial:"G",
+   label:"#1F3D2E", labelLight:"#2e5640", labelDark:"#112018",
+   tracks:[
+   ["Ruslan and Ludmila","glinka_ruslan_ludmila.mp3"],
+   ["Patriotic Melody","glinka_patriotic_melody.mp3"] ]},
+
+ { composer:"Modest Mussorgsky", years:"1839 – 1881", initial:"M",
+   label:"#B8863B", labelLight:"#d4a258", labelDark:"#8B6F35",
+   tracks:[ ["Boris Godunov","mussorgsky_boris_godunov.mp3"] ]},
+
+ { composer:"Nikolai Rimsky-Korsakov", years:"1844 – 1908", initial:"R",
+   label:"#7A2E22", labelLight:"#9e3d30", labelDark:"#4e1b14",
+   tracks:[
+   ["The Flight of the Bumblebee","rimsky_flight_bumblebee.mp3"],
+   ["The Golden Cockerel","rimsky_golden_cockerel.mp3"],
+   ["Scheherazade","rimsky_scheherazade.mp3"] ]},
+
+ { composer:"Alexander Borodin", years:"1833 – 1887", initial:"B",
+   label:"#1F3D2E", labelLight:"#2e5640", labelDark:"#112018",
+   tracks:[ ["Prince Igor","borodin_prince_igor.mp3"] ]},
+
+ { composer:"Sergei Rachmaninoff", years:"1873 – 1943", initial:"R",
+   label:"#B8863B", labelLight:"#d4a258", labelDark:"#8B6F35",
+   tracks:[
+   ["First Symphony","rachmaninoff_symphony_1.mp3"],
+   ["Piano Concerto No. 2","rachmaninoff_piano_concerto_2.mp3"] ]},
+
+ { composer:"Dmitry Shostakovich", years:"1906 – 1975", initial:"S",
+   label:"#7A2E22", labelLight:"#9e3d30", labelDark:"#4e1b14",
+   tracks:[
+   ["Symphony No. 5","shostakovich_symphony_5.mp3"],
+   ["Symphony No. 7","shostakovich_symphony_7.mp3"] ]},
+
+ { composer:"Dmitri Hvorostovsky", years:"1962 – 2017", initial:"H",
+   label:"#1F3D2E", labelLight:"#2e5640", labelDark:"#112018",
+   tracks:[
+   ["Eugene Onegin (title role)","hvorostovsky_eugene_onegin.mp3"],
+   ["The Queen of Spades (Yeletsky)","hvorostovsky_queen_of_spades.mp3"] ]}
+];
+
+const view = document.getElementById('view');
+const audio = new Audio();
+const playBtn = document.getElementById('playBtn');
+const nowPlaying = document.getElementById('nowPlaying');
+const statusEl = document.getElementById('status');
+const vol = document.getElementById('vol');
+const volVal = document.getElementById('volVal');
+let currentEl = null;
+
+audio.volume = 0.8;
+function setBtn(playing){ playBtn.textContent = playing ? '❚❚' : '▶'; }
+
+function renderFolders(){
+  stopAll();
+  view.innerHTML = '<h2>Выбери композитора</h2>';
+  const grid = document.createElement('div'); grid.className = 'grid';
+  DATA.forEach(c => {
+    const f = document.createElement('div'); f.className = 'folder';
+    f.innerHTML = `
+      <div class="monogram" style="--label:${c.label};--label-light:${c.labelLight};--label-dark:${c.labelDark}">
+        <span class="mini-label">${c.initial}</span>
+      </div>
+      <h3>${c.composer}</h3>
+      <div class="years">${c.years}</div>
+      <div class="tracks-count">${c.tracks.length} пластин${c.tracks.length===1?'а':(c.tracks.length<5?'ы':'')}</div>
+    `;
+    f.onclick = () => renderRecords(c);
+    grid.appendChild(f);
+  });
+  view.appendChild(grid);
+}
+
+function renderRecords(c){
+  stopAll();
+  view.innerHTML = `<button id="back">← Назад к коллекции</button><h2>${c.composer}</h2>`;
+  document.getElementById('back').onclick = renderFolders;
+  const grid = document.createElement('div'); grid.className = 'grid';
+  c.tracks.forEach(t => {
+    const w = document.createElement('div'); w.className = 'vinyl-wrap';
+    w.innerHTML = `
+      <div class="vinyl" style="--label:${c.label};--label-light:${c.labelLight};--label-dark:${c.labelDark}">
+        <div class="label">${t[0]}</div>
+      </div>
+      <div class="vinyl-title">«${t[0]}»</div>
+    `;
+    w.querySelector('.vinyl').onclick = e => togglePlay(e.currentTarget, t[1], t[0] + ' · ' + c.composer);
+    grid.appendChild(w);
+  });
+  view.appendChild(grid);
+}
+
+function togglePlay(el, file, title){
+  statusEl.textContent = '';
+  if (currentEl === el && !audio.paused){ pause(); return; }
+  if (currentEl === el && audio.paused){
+    audio.play(); el.classList.add('spinning'); setBtn(true); return;
+  }
+  if (currentEl) currentEl.classList.remove('spinning');
+  currentEl = el;
+  audio.src = 'audio/' + file;
+  audio.play().catch(() => { statusEl.textContent = '⚠ Пластинка не найдена: audio/' + file; });
+  el.classList.add('spinning');
+  nowPlaying.innerHTML = '▶ <em>' + title + '</em>';
+  setBtn(true);
+}
+
+function pause(){
+  audio.pause();
+  if (currentEl) currentEl.classList.remove('spinning');
+  setBtn(false);
+}
+
+function stopAll(){
+  audio.pause(); audio.src = '';
+  if (currentEl) currentEl.classList.remove('spinning');
+  currentEl = null; setBtn(false);
+  nowPlaying.textContent = 'Пластинка не выбрана…';
+}
+
+playBtn.onclick = () => {
+  if (!audio.src || audio.src === location.href) return;
+  if (audio.paused){ audio.play(); if (currentEl) currentEl.classList.add('spinning'); setBtn(true); }
+  else pause();
+};
+
+vol.oninput = e => { audio.volume = e.target.value / 100; volVal.textContent = e.target.value + '%'; };
+
+audio.onended = () => { if (currentEl) currentEl.classList.remove('spinning'); setBtn(false); nowPlaying.textContent = 'Пластинка закончилась…'; };
+audio.onerror = () => {
+  statusEl.textContent = '⚠ Аудиофайл не найден. Положи mp3 в папку «audio» с указанными именами.';
+  if (currentEl) currentEl.classList.remove('spinning'); setBtn(false);
+};
+
+renderFolders();
+</script>
+</body>
+</html>
